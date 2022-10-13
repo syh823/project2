@@ -1,0 +1,151 @@
+---
+title: "project2"
+author: "宋宇恒"
+date: "2022-10-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+ Pone <- function(n, k, strategy, nreps) {
+     m=2*n
+     if(strategy==1) {
+       sum1=0
+       temp=array()
+       for(j in (1:nreps)){
+         card<-sample(c(1:m),m,replace = FALSE)
+         person<-which(card==k)
+         temp[1]=card[person]
+         for(i in (1:n)){
+           if(temp[i]==person)
+           {
+             sum1=sum1+1
+             break
+           }
+           else
+           {
+               temp[i+1]=card[temp[i]]
+           }
+         }
+         
+       }
+       prob1=sum1/nreps
+       print(prob1)
+     }
+     if(strategy==2) {
+     sum2=0
+     for (j in (1:nreps)){
+        temp2=sample(c(1:m),1,replace = FALSE)
+        if(temp2==k){
+          sum3=sum3+1
+          break
+        }
+      }
+     }
+     if(strategy==3) {
+      sum3=0 #成功找到的次数
+      for(i in (1:nreps)){
+         temp=sample(c(1:m),n,replace = FALSE)
+         if(length(which(temp==person))!=0){
+          sum3=sum3+1
+         }
+      }
+      prob3=sum3/nreps
+      prob3
+    }
+     
+ }
+ Pone(10,10,1,10000)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+Pone <- function(n, strategy, nreps) {
+  m=2*n
+  sum=nreps #总成功次数
+  if(strategy==1){
+    for(i in (1:nreps)){
+    card<-sample(c(1:m),m,replace = FALSE)
+    for(j in (1:n)){
+      account=1
+      card_number=j
+      while(account<=n){
+        card_number=card[card_number]
+        if(card_number==j){
+          break
+        }
+        account=account+1
+      }
+      if(account==n+1){
+        sum=sum-1
+        break
+      }
+    }
+  }
+  print(sum)
+  print(sum/nreps)
+  }
+  if(strategy==2){
+    for(i in (1:nreps)){
+    card<-sample(c(1:m),m,replace = FALSE)
+    for(j in (1:n)){
+      account=1
+      card_number=sample(c(1:m),1,replace=FALSE)
+      while(account<=n){
+        card_number=card[card_number]
+        if(card_number==j){
+          break
+        }
+        account=account+1
+      }
+      if(account==n+1){
+        sum=sum-1
+        break
+      }
+    }
+  }
+  print(sum)
+  print(sum/nreps)
+  }
+   if(strategy==3){
+    for(i in (1:nreps)){
+    card<-sample(c(1:m),m,replace = FALSE)
+    for(j in (1:n)){
+      card1=card
+      account=1
+      while(account<=n){
+        card_number=sample(card1,1,replace = FALSE)
+        card1=card1[-which(card1==card_number)]
+        if(card_number==j){
+          break
+        }
+        account=account+1
+      }
+      if(account==n+1){
+        sum=sum-1
+        break
+      }
+    }
+  }
+  print(sum)
+  print(sum/nreps)
+  }
+  
+  
+  
+}
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
