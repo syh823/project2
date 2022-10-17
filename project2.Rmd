@@ -42,19 +42,29 @@ When you click the **Knit** button a document will be generated that includes bo
      }
      if(strategy==2) {
      sum2=0
-     for (j in (1:nreps)){
-        temp2=sample(c(1:m),1,replace = FALSE)
-        if(temp2==k){
-          sum3=sum3+1
-          break
-        }
-      }
+     for (i in (1:nreps)){
+        temp2=array()
+        card<-sample(c(1:m),m,replace = FALSE)
+        start=sample(c(1:m),1,replace = FALSE)
+        temp2[1]=card[start]
+        for(j in (1:n)){
+          if(temp2[j]==k){
+            sum2=sum2+1
+            break
+          }
+          else{
+            temp2[j+1]=card[temp2[j]]
+          }
+        } 
+     }
+     prob2=sum2/nreps
+     print(prob2)
      }
      if(strategy==3) {
       sum3=0 #成功找到的次数
       for(i in (1:nreps)){
-         temp=sample(c(1:m),n,replace = FALSE)
-         if(length(which(temp==person))!=0){
+         temp3=sample(c(1:m),n,replace = FALSE)
+         if(length(which(temp3==k))!=0){
           sum3=sum3+1
          }
       }
@@ -63,7 +73,7 @@ When you click the **Knit** button a document will be generated that includes bo
     }
      
  }
- Pone(10,10,1,10000)
+ #Pone(10,10,1,10000)
 ```
 
 ## Including Plots
