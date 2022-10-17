@@ -21,19 +21,18 @@ When you click the **Knit** button a document will be generated that includes bo
      if(strategy==1) {
        sum1=0
        temp=array()
-       for(j in (1:nreps)){
+       for(i in (1:nreps)){
          card<-sample(c(1:m),m,replace = FALSE)
-         person<-which(card==k)
-         temp[1]=card[person]
-         for(i in (1:n)){
-           if(temp[i]==person)
+         temp[1]=card[k]
+         for(j in (1:n)){
+           if(temp[j]==k)
            {
              sum1=sum1+1
              break
            }
            else
            {
-               temp[i+1]=card[temp[i]]
+               temp[j+1]=card[temp[j]]
            }
          }
          
@@ -72,7 +71,7 @@ When you click the **Knit** button a document will be generated that includes bo
 You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
-Pone <- function(n, strategy, nreps) {
+Pall <- function(n, strategy, nreps) {
   m=2*n
   sum=nreps #总成功次数
   if(strategy==1){
@@ -146,6 +145,9 @@ Pone <- function(n, strategy, nreps) {
   
   
 }
+```
+```{r}
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
