@@ -73,7 +73,7 @@ When you click the **Knit** button a document will be generated that includes bo
     }
      
  }
- #Pone(10,10,1,10000)
+ Pone(10,10,2,10000)
 ```
 
 ## Including Plots
@@ -157,7 +157,36 @@ Pall <- function(n, strategy, nreps) {
 }
 ```
 ```{r}
-
+dloop<-function(n,nreps){
+  m=2*n
+  len=array(0,dim=c(m,nreps))
+  print(len[1,1])
+  for(i in (1:nreps)){
+    card=sample(c(1:m),m,replace=FALSE)
+    for(j in (1:m)){
+      temp=card[j]
+      length=1
+      while(1){
+        if(temp==j){
+        len[length,i]=1
+        break
+        }
+      else{
+        length=length+1
+        temp=card[temp]
+        }
+      }
+    }
+  }
+  print(len)
+  
+  prob <- c(1:m)
+  for(k in (1:m)){
+    prob[k] <- sum(len[k, ])/nreps
+  }
+  print(prob)
+  
+}
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
