@@ -1,0 +1,271 @@
+##### Group member:
+#Hengyu Song, s2447118;Yanming Gu, s2304572;Yiqian Dai, s2329960
+
+#Address of github repo:
+#https://github.com/syh823/projrct2.git
+
+#Each group member took active participate in the group work.
+#Hengyu Gu...
+#
+#Yanming Gu...
+#
+#Yiqian Dai...
+#
+#Each undertake about % of the work...
+
+```{r cars}
+ Pone <- function(n, k, strategy, nreps) {
+#m is the total number of cards     
+     m=2*n
+#For strategy 1
+     if(strategy==1) {
+#Denote sum1 as the number of successful trails that find their prisoner number using strategy1
+       sum1=0
+       temp=array()
+#Repeat replicate simulations (nreps) times 
+       for(i in (1:nreps)){
+#Generate a random permutation of the elements of 1 to m with length m
+         card<-sample(c(1:m),m,replace = FALSE)
+#Refer to card number in the box of prisoner number k when prisoner first time open the box 
+         temp[1]=card[k]
+#Prisoner opens boxes n times
+         for(j in (1:n)){
+#Prisoner found the card with their number on it when he/she jth time open the box
+           if(temp[j]==k)
+           {
+#The successful trials increase by 1
+             sum1=sum1+1
+             break
+           }
+           else
+           {
+#Otherwise, prisoner continues to open the box of the card number in the preious box
+               temp[j+1]=card[temp[j]]
+           }
+         }
+         
+       }
+#The probability of strategy1 is the ratio of successful trials to nrep trails
+       prob1=sum1/nreps
+       print(prob1)
+     }
+#For strategy 2
+     if(strategy==2) {
+#Denote sum2 as the number of successful trails that find their prisoner number using strategy2
+     sum2=0
+#Repeat replicate simulations (nreps) times
+     for (i in (1:nreps)){
+        temp2=array()
+#Generate a random permutation of the elements of 1 to m with length m
+        card<-sample(c(1:m),m,replace = FALSE)
+#Prisoner opens the 1st box randomly selected from 1 to m
+        start=sample(c(1:m),1,replace = FALSE)
+#Refer to card number in the first box 
+        temp2[1]=card[start]
+#Prisoner opens boxes n times
+        for(j in (1:n)){
+#Prisoner found the card with their number on it in the jth box
+          if(temp2[j]==k){
+#The success trials increase by 1
+            sum2=sum2+1
+            break
+          }
+          else{
+#Otherwise, prisoner continues to open the box of the card number in the preious box
+            temp2[j+1]=card[temp2[j]]
+          }
+        } 
+     }
+#The probability of strategy2 is the ratio of successful trials to nrep trails
+     prob2=sum2/nreps
+     print(prob2)
+     }
+#For strategy 3
+     if(strategy==3) {
+#Denote sum3 as the number of successful trails that find their prisoner number using strategy3
+      sum3=0 
+#Prisoner opens boxes n times
+      for(i in (1:nreps)){
+#Generate a random permutation of the elements of 1 to m with length n
+         temp3=sample(c(1:m),n,replace = FALSE)
+#There exists card number same as prisoner number in the n boxes
+         if(length(which(temp3==k))!=0){
+#The successful trials increase by 1
+          sum3=sum3+1
+         }
+      }
+#The probability of strategy3 is the ratio of successful trials to nrep trails
+      prob3=sum3/nreps
+      prob3
+    }
+     
+ }
+ #Pone(10,10,1,10000)
+```
+
+
+
+```{r pressure, echo=FALSE}
+Pall <- function(n, strategy, nreps) {
+#m is the total number of cards  
+  m=2*n
+#The successful trails that all prisoners find their number
+  sum=nreps 
+#For strategy 1
+  if(strategy==1){
+#Repeat replicate simulations (nreps) times
+    for(i in (1:nreps)){
+#Generate a random permutation of the elements of 1 to m with length m
+    card<-sample(c(1:m),m,replace = FALSE)
+#Prisoner number
+    for(j in (1:n)){
+#A prisoner opens the 1st box 
+      account=1
+#The prisoner first opens the box of their prisoner number j
+      card_number=j
+      while(account<=n){
+#Prisoner continues to open the box of precious card number
+        card_number=card[card_number]
+#Prisoner found the card with their number on it 
+        if(card_number==j){
+          break
+        }
+#If not, the prisoner opens one more box
+        account=account+1
+      }
+#If a prisoner opens n boxes without finding their number, the trail failed 
+      if(account==n+1){
+        sum=sum-1
+        break
+      }
+    }
+  }
+  print(sum)
+#The probability of strategy1 is the ratio of successful trials to nrep trails
+  print(sum/nreps)
+  }
+#For strategy 2
+  if(strategy==2){
+#Repeat replicate simulations (nreps) times
+    for(i in (1:nreps)){
+#Generate a random permutation of the elements of 1 to m with length m
+    card<-sample(c(1:m),m,replace = FALSE)
+#Prisoner number
+    for(j in (1:n)){
+#A prisoner opens the 1st box
+      account=1
+#The first card number in the box randomly selected from 1 to m
+      card_number=sample(c(1:m),1,replace=FALSE)
+      while(account<=n){
+#Prisoner continues to open the box of precious card number
+        card_number=card[card_number]
+#Prisoner found the card with their number on it
+        if(card_number==j){
+          break
+        }
+#If not, the prisoner opens one more box
+        account=account+1
+      }
+#If a prisoner opens n boxes without finding their number, the trail failed
+      if(account==n+1){
+        sum=sum-1
+        break
+      }
+    }
+  }
+  print(sum)
+#The probability of strategy2 is the ratio of successful trials to nrep trails
+  print(sum/nreps)
+  }
+#For strategy 3
+   if(strategy==3){
+#Repeat replicate simulations (nreps) times
+    for(i in (1:nreps)){
+#Generate a random permutation of the elements of 1 to m with length m
+    card<-sample(c(1:m),m,replace = FALSE)
+#Prisoner number
+    for(j in (1:n)){
+      card1=card
+#A prisoner opens the 1st box
+      account=1
+      while(account<=n){
+#Each card number in the box is randomly selected from 1 to m without replacement
+        card_number=sample(card1,1,replace = FALSE)
+#In a trail, card is removed after opening
+        card1=card1[-which(card1==card_number)]
+#Prisoner found the card with their number on it
+        if(card_number==j){
+          break
+        }
+#If not, the prisoner opens one more box
+        account=account+1
+      }
+#If a prisoner opens n boxes without finding their number, the trail failed
+      if(account==n+1){
+        sum=sum-1
+        break
+      }
+    }
+  }
+  print(sum)
+#The probability of strategy3 is the ratio of successful trials to nrep trails
+  print(sum/nreps)
+  }
+}
+```
+```{r}
+```
+
+
+
+```{r pressure, echo=FALSE}
+dloop = function(n, nreps){
+  m = 2*n
+  count_loops <- array()
+#Repeat replicate simulations (nreps) times
+  for(i in (1:nreps)){
+#Generate a random permutation of the elements of 1 to m with length m
+    u <- sample(c(1:m), m, replace = FALSE)
+#index <- c(1:m)
+    for(j in (1:m)){
+#Loop starts at 1
+      l = 1
+      flag=TRUE
+#Card number does not match their prisoner number
+      while (u[j] != j){
+#Prisoner continues to open the box of precious card number
+        j <- u[j]
+#Loop increases by 1
+        l <- l + 1
+#Stops when prisoner found their prisoner number
+        if (u[j] == j){
+          flag=FALSE
+          if(flag==TRUE) next
+        }
+      }
+#Generate an array to combine the value of same loops
+      count_loops[l, i] <- count_loops[l, i] + 1
+      print(count_loops)
+    }
+  }
+  
+#Remove the repetitive loops and keep the value equals to 1, which helps to calculate
+  for(i in (1:m)){
+    for(j in (1:nreps)){
+      if (count_loops[i, j] >= 1){
+        count_loops[i, j] = 1
+      }
+    }
+  }
+  prob <- c(1:m)
+  for(k in (1:m)){
+#Calculate the probability of each loop length from 1 to 2n occurring at least once
+    prob(k) <- sum(count_loops[k, ])/nreps
+  }
+  print(prob)
+}
+dloop(100,1000)
+
+```
+```{r}
+```
